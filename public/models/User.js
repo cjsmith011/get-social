@@ -37,12 +37,12 @@ const UserSchema = new Schema({
   });
 
 //this will count the friends on each user
-userSchema.virtual('friendCount').get(function() {
+UserSchema.virtual('friendCount').get(function() {
   return this.friends.reduce((total, friend) => total + friend.replies.length +1, 0);
 });
 
   // create the User model with the schema given
 const User = model('User', UserSchema);
 
-// export the Pizza model
+// export the User model
 module.exports = User;

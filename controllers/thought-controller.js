@@ -6,15 +6,23 @@ const thoughtController = {
   // get all thoughts
   getAllThoughts(req, res) {
     Thought.find({})
-    .populate({
-      path: 'users',
-      select: '-__v'
-    })
-    //this cleans up our returned data to take away the v since it doesn't mean anything to a user
-    .select('-__v')
-    //this will sort the results in desc order
-    .sort({ _id: -1 })
-    .then(dbUserData => res.json(dbUserData))
+      .then(dbUserData => res.json(dbUserData))
+      .catch(err => {
+        console.log(err);
+        res.status(400).json(err);
+      });
+  },
+  // get thought by id
+  getThoughtById({ params }, res) {
+    Thought.findOne({ _thoughtid: params.thoughtid })
+        .then(dbUserData => {
+        // If no thought is found, send 404
+        if (!dbUserData) {
+          res.status(404).json({ message: 'Sorry, that social thought does not exist!' });
+          return;
+        }
+        res.json(dbUserData);
+      })
       .catch(err => {
         console.log(err);
         res.status(400).json(err);
@@ -56,7 +64,18 @@ const thoughtController = {
       })
       .catch(err => res.json(err));
     },
-   
+   // update thought by id
+updateThought({ params, body }, res) {
+  Thought.findOneAndUpdate({ _id: params.id }, body)
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: "Sorry, we don't have a social thought with that id!" });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => res.status(400).json(err));
+},
     //delete a thought
     removeThought({ params }, res) {
         Thought.findOneAndDelete({ _id: params.thoughtId })

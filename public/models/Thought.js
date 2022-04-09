@@ -1,6 +1,32 @@
 const { Schema, model, Types } = require('mongoose');
 const dateFormat = require('../../utils/dateFormat');
 
+const ReactionSchema = new Schema({
+  reactionId: {
+  type: Schema.Types.ObjectId,
+  default: () => new Types.ObjectId()
+  },
+userName: {
+  type: String, 
+  required: true
+  },
+reactionBody: {
+  type: String,
+  required: true,
+  max: 280
+  },
+createdAt: {
+  type: Date,
+  default: Date.now,
+  get: createdAtVal => dateFormat(createdAtVal)
+    }
+  },
+{
+toJSON: {
+  getters: true
+  }
+}
+);
 
 //this will allow users to share their thoughts on our social
 const ThoughtSchema = new Schema({
@@ -9,7 +35,7 @@ const ThoughtSchema = new Schema({
       required: true,
       min: 1, max: 280
     },
-    username: {
+    userName: {
       type: String, 
       required: true
     },
@@ -30,33 +56,6 @@ const ThoughtSchema = new Schema({
 );
 
 
-const ReactionSchema = new Schema({
-    reactionId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId()
-  },
-  username: {
-    type: String, 
-    required: true
-  },
-  reactionBody: {
-    type: String,
-    required: true,
-    max: 280
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    get: createdAtVal => dateFormat(createdAtVal)
-  },
-  
-},
-{
-  toJSON: {
-    getters: true
-  },
-}
-);
 
 //this will put in a count of replies
 ThoughtSchema.virtual('reactionCount').get(function() {
@@ -64,6 +63,6 @@ ThoughtSchema.virtual('reactionCount').get(function() {
 });
 
 
-const Comment = model('Comment', CommentSchema);
+const Thought = model('Thought', ThoughtSchema);
 
-module.exports = Comment;
+module.exports = Thought;
