@@ -21,6 +21,9 @@ router.route('/')
 router.route('/:thoughtId')
 .get(getThoughtById)
 .put(updateThought)
+
+//remove a thought
+router.route('/:userId/thoughts/:thoughtId')
 .delete(removeThought);
 
 
@@ -28,10 +31,11 @@ router.route('/:thoughtId')
 router
 .route('/:userId/:thoughtId')
 .post(addReaction)
+.delete(removeThought);
 
 //remove a reaction
 router
-.route('/:userId/:thoughtId/:reactionId')
+.route('/:userId/:thoughtId/reactions/:reactionId')
 .delete(removeReaction);
 
 module.exports = router;

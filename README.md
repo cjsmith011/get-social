@@ -1,5 +1,14 @@
 # get-social
 
+Welcome to Get Social.  I enjoyed the testing aspect of this assignment - it helped me get more familiar with insomnia and routes.
+
+
+Credit: Pizza Hunt async module
+
+Video 1: users and updating a thought: https://drive.google.com/file/d/1ojMGy_g_h7eu7LUdXNIsYAGYA38dir85/view, 
+
+Video 2: thoughts and reactions: https://drive.google.com/file/d/1746FpZ-KJ5EAE3fbqo5OHWWwD6OrDimZ/view
+
 AS A social media startup
 I WANT an API for my social network that uses a NoSQL database
 SO THAT my website can handle large amounts of unstructured data
