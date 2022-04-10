@@ -14,7 +14,7 @@ const thoughtController = {
   },
   // get thought by id
   getThoughtById({ params }, res) {
-    Thought.findOne({ _thoughtid: params.thoughtid })
+    Thought.findOne({ _id: params.thoughtId })
         .then(dbUserData => {
         // If no thought is found, send 404
         if (!dbUserData) {
@@ -28,10 +28,9 @@ const thoughtController = {
         res.status(400).json(err);
       });
   },
-    //add a thought to a user
-    addThought({ params, body }, res) {
-        console.log(body);
-        Thought.create(body)
+  //add a thought to a user
+  addThought({ params, body }, res) {
+      Thought.create(body)
         .then(({ _id }) => {
             return User.findOneAndUpdate(
                 { _id: params.userId },
@@ -47,10 +46,10 @@ const thoughtController = {
           res.json(dbUserData);
         })
         .catch(err => res.json(err));
-    },
-    //this will add a reaction to a thought
-    addReaction({ params, body }, res) {
-      Thought.findOneAndUpdate(
+  },
+  //this will add a reaction to a thought
+  addReaction({ params, body }, res) {
+    Thought.findOneAndUpdate(
         { _id: params.thoughtId },
         { $push: { reactions: body } },
         { new: true, runValidators: true }
@@ -64,9 +63,9 @@ const thoughtController = {
       })
       .catch(err => res.json(err));
     },
-   // update thought by id
-updateThought({ params, body }, res) {
-  Thought.findOneAndUpdate({ _id: params.id }, body)
+  // update thought by id
+  updateThought({ params, body }, res) {
+  Thought.findOneAndUpdate({ _id: params.thoughtId }, body)
     .then(dbUserData => {
       if (!dbUserData) {
         res.status(404).json({ message: "Sorry, we don't have a social thought with that id!" });
@@ -75,7 +74,7 @@ updateThought({ params, body }, res) {
       res.json(dbUserData);
     })
     .catch(err => res.status(400).json(err));
-},
+  },
     //delete a thought
     removeThought({ params }, res) {
         Thought.findOneAndDelete({ _id: params.thoughtId })
@@ -91,7 +90,7 @@ updateThought({ params, body }, res) {
           })
           .then(dbUserData => {
             if (!dbUserData) {
-              res.status(404).json({ message: 'No user found with this id!' });
+              res.status(404).json({ message: 'No user found with that thought!' });
               return;
             }
             res.json(dbUserData);
