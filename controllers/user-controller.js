@@ -59,15 +59,40 @@ updateUser({ params, body }, res) {
       })
       .catch(err => res.status(400).json(err));
   },
+   //this will add a reaction to a thought
+   addFriend({ params, body }, res) {
+    User.findOneAndUpdate(
+        { _id: params.userId },
+        { $push: { friends: body } },
+        { new: true, runValidators: true }
+      )
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'ooops, we do not have a user with that id!' });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch(err => res.json(err));
+    },
+    deleteFriend({ params }, res) {
+      User.findOneAndUpdate(
+        { _id: params.userId },
+        { $pull: { friends: { friendId: params.friendId } } },
+      { new: true }
+      )
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => res.json(err));
+  },
   // delete a user
 deleteUser({ params }, res) {
     User.findOneAndDelete({ _id: params.id })
       .then(dbUserData => {
         if (!dbUserData) {
-          res.status(404).json({ message: 'That user does not exist, unable to delete.' });
+          res.status(404).json({ message: 'That user does not exist, unable to delete' });
           return;
         }
-        res.json(dbUserData);
+        res.json(dbPizzaData);
       })
       .catch(err => res.status(400).json(err));
   }

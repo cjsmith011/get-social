@@ -6,10 +6,12 @@ const {
     updateThought,
     removeThought,
     addReaction,
-    removeReaction } = require('../../controllers/thought-controller');
+    removeReaction 
+} = require('../../controllers/thought-controller');
 
 // /api/thoughts/<userID>  add a thought
-router.route('/:userId').post(addThought);
+router.route('/:userId')
+.post(addThought);
 
 //api/thoughts
 router.route('/')
